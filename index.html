@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="./styles/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900|Special+Elite|Montserrat" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
 </head>
 
 <body>
@@ -32,7 +33,7 @@
                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/154694/vinyl.png" alt="" id="vinyl" class="spinning" />
                 <div id="cvr">
                     <div id="Instructions">
-                        <p class="now">The wonder years are...</p>
+                        <p class="now">Re-discover the soundtrack of your youth.</p>
                     </div>
                     <div>
 
@@ -42,14 +43,14 @@
                                 <div class="wrapper">
                                     <div class="basic-info">
                                         I'm a 
-                                        <select id="gender">
-                                            <option value="male"selected>man</option>
-                                            <option value="woman">woman</option>
-                                            <option value="both">special flower</option>
+                                        <select id="gender" >
+                                            <option value="" disabled hidden selected>select</option>
+                                            <option value="male">guy</option>
+                                            <option value="woman">girl</option><option value="both">other</option>
                                         </select>
-                
                                         born in 
-                                        <select name="birth-year">
+                                        <select name="birth-year" required>
+                                            <option value="" disabled selected hidden>year</option>
                                             <option value="2002">2002</option>
                                             <option value="2001">2001</option>
                                             <option value="2000">2000</option>
@@ -116,6 +117,7 @@
                                 </div>
                             </div>          
                             <input type="submit" class="submit" value="Find me my Soundtrack">
+                            <div class="arrowBounce hidden"><i class="fa fa-angle-double-down" aria-hidden="true"></i></div> 
                         </form>
                     </div>
                 </div>

@@ -30,6 +30,12 @@ let audio = $("<audio>");
             };
             wonderApp.events();
         });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 1600) {
+                $(".arrowBounce").addClass("hidden");
+            }
+        });
     };
 
     wonderApp.events = function() {
@@ -41,9 +47,9 @@ let audio = $("<audio>");
             // console.log('submitted')
             const birthYear = Number($('select[name=birth-year]').val());
             // console.log(birthYear);
-            const gender = $('select[name=gender]').val();
+            const gender = $('select[id=gender]').val();
             // console.log(gender);
-            if (gender === "female") {
+            if (gender === "woman") {
               const startYear = birthYear + 11 + "-1-1";
               const endYear = birthYear + 14 + "-12-31";
               // console.log(startYear, endYear);
@@ -59,9 +65,9 @@ let audio = $("<audio>");
                 // console.log(startYear, endYear);
                 wonderApp.getRanked(startYear, endYear);
             }
-            $('#record').removeClass("open");
+            $("#record").removeClass("open");
             $("#record").addClass("closed");
-            
+            $(".arrowBounce").removeClass("hidden");
         });    
 
     }
@@ -126,39 +132,50 @@ let audio = $("<audio>");
         });
     };
 
-    wonderApp.displayAlbumContent = function (info) {
-
-            const container = 
+wonderApp.displayAlbumContent = function (info) {
+    if (info.preview_url !== (null)) {
+        const container =
             `<div id="conatiner">` +
-            `<div id="player">` + 
-            `<div id="cover">` + 
-            `<img src="${info.album.images[1].url}" width="200" height="200" alt="" id="artwork" />` + 
-            `<div id="trackInfos">` + 
-            `<a href="#" id="play" onClick="toggleSound()" class="far fa-play-circle"></a>` + 
-                `<audio id="audio" src="${info.preview_url}" type="audio/mpeg"></audio>` + 
-            `</div>` + 
-            `</div>` + 
+            `<div id="player">` +
+            `<div id="cover">` +
+            `<img src="${info.album.images[1].url}" width="200" height="200" alt="" id="artwork" />` +
+            `<div id="trackInfos">` +
+            `<a href="#" id="${info.id}" onclick="play('audio_${info.id}')" class="play far fa-play-circle"></a>` +
+            `<audio  id="audio_${info.id}" src="${info.preview_url}" type="audio/mpeg"></audio>` +
+            `</div>` +
+            `</div>` +
             `</div>` +
             `<div class="song-info"><p>${info.name}</p><p>${info.artists[0].name}</p></div>` +
             `</div>`;
-            
-            $('#playlist').append(container);
-    };
+        $('#playlist').append(container);
+        console.log(container);
+    }
+};
 
-            function toggleSound() {
-            var audioElem = $(this).attr("audio");
-            if (audioElem.paused) {
-                audioElem.play();
-                $("#play")
-                .removeClass("far fa-play-circle")
-                .addClass("far fa-pause-circle");
-            } else {
-                audioElem.pause();
-                $("#play")
-                .removeClass("far fa-pause-circle")
-                .addClass("far fa-play-circle");
-            }
-            };
+//plays the song preview and toggles between the play and pause buttons
+//using .bind here to get the unique id od the element that was clicked.
+function play(element) {
+    let audio = document.getElementById(element);
+    $(".play").bind("click", function () {
+        return ($(this).attr("id"));
+    });
+    if (audio.paused) {
+        audio.play();
+        $(".play")
+            .removeClass("far fa-play-circle")
+            .addClass("far fa-pause-circle")
+        $("#player")
+
+
+    } else {
+        audio.pause();
+        $(".play")
+            .removeClass("far fa-pause-circle")
+            .addClass("far fa-play-circle");
+
+    }
+};
+
 
             
 //*Doc ready

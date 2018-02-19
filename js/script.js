@@ -4,6 +4,7 @@ const wonderApp = {};
 let headers = {};
 
 //*init
+
     wonderApp.init = function () {
         $.ajax({
             url: "http://proxy.hackeryou.com",
@@ -37,7 +38,7 @@ let headers = {};
         $('form').on('submit', function (e) {
             //When user clicks submit, we grab their birth year and gender
             e.preventDefault();
-        
+            $('#playlist').html('');
             // console.log('submitted')
             const birthYear = Number($('select[name=birth-year]').val());
             // console.log(birthYear);
@@ -57,7 +58,6 @@ let headers = {};
         });    
 
     }
-
     
 //* Get Ranked
         
@@ -67,7 +67,8 @@ let headers = {};
             dataType: 'json',
             method: 'GET',
             data: {
-                reqUrl: `http://billboard.modulo.site/rank/song/1/?from=${startYear}&to=${endYear}`
+                reqUrl: `http://billboard.modulo.site/rank/song/1/?from=${startYear}&to=${endYear}`,
+               
             }
         }).then(function (res) {
             console.log(res);
@@ -77,9 +78,9 @@ let headers = {};
     
 //*Track ID
 
-    wonderApp.spotifyTrackID = function (billboardList) {
+    wonderApp.spotifyTrackID = function (res) {
         // we created a track id variable that we could pass in a map function that returns an array with the spotify_id values. Its important to note the 
-        const unfilteredTracks = billboardList.map(function (song) {
+        const unfilteredTracks = res.map(function (song) {
             return song.spotify_id;
         });
         
@@ -93,46 +94,60 @@ let headers = {};
             return (item !== (null));
         });
         
-        // for (let i = 0; i < billboardList.length; i = i + 1) {
+        // for (let i = 0; i < res.length; i = i + 1) {
         // }
         // console.log(unfilteredTracks);
         // console.log(uniqueTracks);
         console.log(trackIDs);
+        const results = trackIDs.map(billboard => {
+            return wonderApp.getTrack(billboard);
+        })
+        $.when(...results).then(function(...args){
+            args = args.map(item =>{
+                // console.log(item[0])
+                return item[0];
+            });
+            // console.log(args);
+        });
     };
 
 //*Get Song information from spotify using billboard id
         
-    wonderApp.getTrack = function () {
-        $.ajax({
-            url: "https://api.spotify.com/v1/tracks/4kflIGfjdZJW4ot2ioixTB",
+    wonderApp.getTrack = function (id) {
+        return $.ajax({
+            url: `https://api.spotify.com/v1/tracks/${id}`,
             method: "GET",
             headers: headers,
             dataType: 'json'
-        }).then(function (res) {
-            // console.log(res);
-            wonderApp.displayAlbumContent(res);
+        }) .then(function (info){
+            wonderApp.displayAlbumContent(info);
+            console.log(info);
         });
     };
 
-    wonderApp.displayAlbumContent = function (trackInfo) {
-        // this is grabbing the art
-        const displayArt = trackInfo.album.images[1].url;
-        // console.log(displayArt);
-        // this is the album title
-        const albumTitle = trackInfo.album.name;
-        // console.log(albumTitle);
-        // this is the song title
-        const songTitle = trackInfo.name;
-        // console.log(songTitle);
-        // this is the artist
-        const songArtist = trackInfo.artists[0].name;
-        // console.log(songArtist);
-        //This is the 30sec song preview URL
-        const songPreview = trackInfo.preview_url;
-        // console.log(songPreview);
+    wonderApp.displayAlbumContent = function (info) {
+            const displayArt = $('<img>').attr('src', info.album.images[1].url);
+            // console.log(displayArt);
+            // this is the album title
+            const albumTitle = $('<p>').text(info.album.name);
+            // console.log(albumTitle);
+            // this is the song title
+            const songTitle = $('<p>').text(info.name);
+            // console.log(songTitle);
+            // this is the artist
+            const songArtist = $('<p>').text(info.artists[0].name);
+            // console.log(songArtist);
+            //This is the 30sec song preview URL
+            // const songPreview = $('<iframe>').text(info.preview_url);
+            // console.log(songPreview);
+            const container = $('<div>').append(displayArt, albumTitle, songTitle, songArtist);
+
+            $('#playlist').append(container);
     };
 
 //*Doc ready
+
         $(function () {
         wonderApp.init();
     });
+

@@ -1,0 +1,263 @@
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\201C \201D \2018 \2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+.clearfix:after {visibility: hidden; display: block; font-size: 0; content: ''; clear: both; height: 0; }
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+
+
+
+/* Record with form */
+#record {
+  transition: all 500ms ease;
+  position: relative;
+  margin: 0 auto;
+  height: 560px;
+}
+#record #cvr {
+  text-align: center;
+  font-size: 2rem;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  overflow: hidden;
+  width: 550px;
+  height: 550px;
+  background:  url("https://www.transparenttextures.com/patterns/vintage-speckles.png"),rgb(0, 0, 0);
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+
+#record #cvr:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 50%;
+  background-image: #151515;
+  transform: skewX(-45deg);
+  transform-origin: top left;
+}
+
+.introduction {
+    color: white;
+    padding: 300px 0 100px;
+    background: url(../assets/background.jpeg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+form {
+    padding-top: 75px;
+    margin: 20px;
+}
+
+
+select {
+  border: none;
+  background: none;
+  color: #5971ff;
+  -moz-appearance: window;
+  -webkit-appearance: none;
+  text-align: center;
+  border-bottom: #5971ff;
+}
+
+option {
+  color: #5971ff;
+  background-color: white;
+  border: none;
+  height: 50px;
+  font-size: 10px; 
+}
+
+.submit {
+    margin: 100px 30px;
+    border: none;
+    padding: 20px 10px;
+    color: white;
+    background: linear-gradient(to right, #5874FF, #7500FF);
+}
+
+#record #vinyl {
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 550px;
+  height: 550px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.start {
+    width: 100%;
+    position: fixed; 
+    background: url("https://www.transparenttextures.com/patterns/vintage-speckles.png"), #000000c8;
+    z-index: 99999;
+    box-shadow: 0px 0px 19px -3px rgba(0, 0, 0, 0.36);
+    color: white; 
+    }
+
+  .start-text {
+    width: 85%;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    font-size: 50px;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  h1 .start-B {
+    float: left;
+    transform: rotate(-10deg);
+    font-size: 70px;
+    padding-right: 2px;
+    background: linear-gradient(to right, #5874FF, #7500FF);
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+  }
+
+  h1 .start-shift {
+    position: relative;
+    top: 20px;
+  }
+
+
+.closed {
+  width: 550px;
+}
+
+.open {
+  width: 850px;
+}
+
+.hidden {
+    display: none;
+}
+
+.spinning {
+  -moz-animation: turntable 4s linear infinite;
+  -webkit-animation: turntable 4s linear infinite;
+  animation: turntable 4s linear infinite;
+}
+
+
+@keyframes turntable {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@-webkit-keyframes turntable {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@-moz-keyframes turntable {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@-o-keyframes turntable {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+/* Album Styles */
+#player {
+  transition: all 500ms ease;
+  position: relative;
+  margin: 0 auto;
+  height: 200px;
+}
+#player #cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  max-width: 200px;
+  max-height: 200px;
+  background: rgb(39, 39, 39);
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.5);
+}
+
+#player #cover img {
+  display: block;
+}
+
+#player #trackInfos {
+  transition: all 500ms ease;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  opacity: 0;
+}
+#player #trackInfos:hover {
+  opacity: 1;
+}
+#player #trackInfos {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+
+#player #trackInfos #play {
+  position: absolute;
+  top: calc(50% - 2.5rem);
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 5rem;
+  line-height: 5rem;
+  text-align: center;
+  font-size: 5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#playlist {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 80%;
+  height: 100%;
+  grid-gap: 10px;
+  padding-top: 150px;
+}
+
+.song-info {
+    line-height: .7rem;
+}
+
+.song-info p {
+
+}
+
+section {
+  background-color: #151515;
+  color: white;
+}

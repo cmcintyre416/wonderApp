@@ -3,6 +3,8 @@ const wonderApp = {};
 
 let headers = {};
 
+let audio = $("<audio>");
+
 //*init
 
     wonderApp.init = function () {
@@ -26,9 +28,6 @@ let headers = {};
             headers = {
                 "Authorization": res.token_type + " " + res.access_token
             };
-            // console.log(res);
-            // wonderApp.getRanked();
-            // wonderApp.getTrack();
             wonderApp.events();
         });
     };
@@ -42,19 +41,27 @@ let headers = {};
             // console.log('submitted')
             const birthYear = Number($('select[name=birth-year]').val());
             // console.log(birthYear);
-            const gender = $('input[name=gender]:checked').val();
+            const gender = $('select[name=gender]').val();
             // console.log(gender);
             if (gender === "female") {
-                const startYear = (birthYear + 11) + "-1-1";
-                const endYear = (birthYear + 14) + "-12-31";
-                // console.log(startYear, endYear);
-                wonderApp.getRanked(startYear, endYear);
+              const startYear = birthYear + 11 + "-1-1";
+              const endYear = birthYear + 14 + "-12-31";
+              // console.log(startYear, endYear);
+              wonderApp.getRanked(startYear, endYear);
+            } else if (gender === "male") {
+              const startYear = birthYear + 13 + "-1-1";
+              const endYear = birthYear + 16 + "-12-31";
+              // console.log(startYear, endYear);
+              wonderApp.getRanked(startYear, endYear);
             } else {
-                const startYear = (birthYear + 13) + "-1-1";
-                const endYear = (birthYear + 16) + "-12-31";
+                const startYear = birthYear + 11 + "-1-1";
+                const endYear = birthYear + 16 + "-12-31";
                 // console.log(startYear, endYear);
                 wonderApp.getRanked(startYear, endYear);
-            } 
+            }
+            $('#record').removeClass("open");
+            $("#record").addClass("closed");
+            
         });    
 
     }
@@ -93,21 +100,13 @@ let headers = {};
         const trackIDs = uniqueTracks.filter(function (item) {
             return (item !== (null));
         });
-        
-        // for (let i = 0; i < res.length; i = i + 1) {
-        // }
-        // console.log(unfilteredTracks);
-        // console.log(uniqueTracks);
-        console.log(trackIDs);
         const results = trackIDs.map(billboard => {
             return wonderApp.getTrack(billboard);
-        })
+        });
         $.when(...results).then(function(...args){
             args = args.map(item =>{
-                // console.log(item[0])
-                return item[0];
+                return args
             });
-            // console.log(args);
         });
     };
 
@@ -119,32 +118,49 @@ let headers = {};
             method: "GET",
             headers: headers,
             dataType: 'json'
-        }) .then(function (info){
+        })
+        
+        .then(function (info){
             wonderApp.displayAlbumContent(info);
             console.log(info);
         });
     };
 
     wonderApp.displayAlbumContent = function (info) {
-            const displayArt = $('<img>').attr('src', info.album.images[1].url);
-            // console.log(displayArt);
-            // this is the album title
-            const albumTitle = $('<p>').text(info.album.name);
-            // console.log(albumTitle);
-            // this is the song title
-            const songTitle = $('<p>').text(info.name);
-            // console.log(songTitle);
-            // this is the artist
-            const songArtist = $('<p>').text(info.artists[0].name);
-            // console.log(songArtist);
-            //This is the 30sec song preview URL
-            // const songPreview = $('<iframe>').text(info.preview_url);
-            // console.log(songPreview);
-            const container = $('<div>').append(displayArt, albumTitle, songTitle, songArtist);
 
+            const container = 
+            `<div id="conatiner">` +
+            `<div id="player">` + 
+            `<div id="cover">` + 
+            `<img src="${info.album.images[1].url}" width="200" height="200" alt="" id="artwork" />` + 
+            `<div id="trackInfos">` + 
+            `<a href="#" id="play" onClick="toggleSound()" class="far fa-play-circle"></a>` + 
+                `<audio id="audio" src="${info.preview_url}" type="audio/mpeg"></audio>` + 
+            `</div>` + 
+            `</div>` + 
+            `</div>` +
+            `<div class="song-info"><p>${info.name}</p><p>${info.artists[0].name}</p></div>` +
+            `</div>`;
+            
             $('#playlist').append(container);
     };
 
+            function toggleSound() {
+            var audioElem = $(this).attr("audio");
+            if (audioElem.paused) {
+                audioElem.play();
+                $("#play")
+                .removeClass("far fa-play-circle")
+                .addClass("far fa-pause-circle");
+            } else {
+                audioElem.pause();
+                $("#play")
+                .removeClass("far fa-pause-circle")
+                .addClass("far fa-play-circle");
+            }
+            };
+
+            
 //*Doc ready
 
         $(function () {
